@@ -1,0 +1,29 @@
+.block-1 {
+    background-color: blueviolet;
+    height: 1rem;
+    width: 2rem;
+}
+.block-2 {
+    background-color: coral;
+}
+
+.span-1 {
+    background-color: lightpink;
+    height: 10rem;
+}
+.span-2 {
+    background-color: lightgreen;
+    display: block;
+}
+
+.block-3 {
+    background-color: lightblue;
+    display: inline;
+}
+
+.block-4 {
+    background-color: brown;
+    display: inline-block;
+    height: 5rem;
+    width: 5rem;
+}

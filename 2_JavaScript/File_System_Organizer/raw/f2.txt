@@ -1,0 +1,10 @@
+1 Hey, this is content of f1 file.
+2 I am f2
+
+3 Hello, I can append content now
+
+4 I am f2
+5 Hello, I can append content now
+
+I am f2
+Hello, I can append content now

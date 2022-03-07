@@ -1,0 +1,54 @@
+* {
+    box-sizing: border-box;
+}
+
+/* Bring your html tags into visibility => Background color */
+.topbar-cont {
+    /* background-color: lightblue; */
+    display: flex;
+    /* Want space in-between */
+    justify-content: space-between;
+}
+.title-cont {
+    /* background-color: lightcoral; */
+}
+.nav-cont {
+    /* background-color: lightsalmon; */
+    display: flex;
+    width: 10rem;
+    justify-content: space-between;
+    align-items: center;
+}
+.navigation-cont:hover {
+    color: lightcoral;
+    cursor: pointer;
+}
+
+.image-cont {
+    width: 98vw;
+    height: 80vh;
+    margin-bottom: 2rem;
+}
+
+.image-content {
+    width: 100%;
+    height: 100%;
+}
+
+.content-cont {
+    display: flex;
+    text-align: center;
+}
+.similar-cont > img {
+    width: 4rem;
+}
+
+.copyright-cont {
+    background-color: black;
+    color: white;
+    /* text-align: center; */
+    height: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

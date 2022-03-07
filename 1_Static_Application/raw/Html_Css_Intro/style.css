@@ -1,0 +1,30 @@
+h1 {
+    color: lightblue;
+}
+
+p {
+    background-color: lightsalmon;
+}
+
+li {
+    font-weight: bold;
+}
+
+ul li {
+    color: red;
+}
+
+img {
+    width: 100px;
+    height: 200px;
+}
+
+.special-p {
+    color: blue;
+}
+#unique-p {
+    color: white;
+}
+.more-special-p {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}

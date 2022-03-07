@@ -1,0 +1,16 @@
+.px-unit {
+    font-size: 30px;
+}
+.rem-unit {
+    font-size: 3rem;
+}
+.vh-vw-unit {
+    height: 20vh;
+    width: 30vw;
+    background-color: lightblue;
+}
+.percent-unit {
+    height: 20%;
+    width: 20%;
+    background-color: lightcoral;
+}
