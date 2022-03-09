@@ -1,12 +1,14 @@
 const request = require("request");
 const jsdom = require("jsdom");
 const { JSDOM } = jsdom;
+const fs = require('fs');
 
 const link = "https://www.espncricinfo.com/series/ipl-2021-1249214/match-results"
 
 request(link,cb);
 
-leaderBoard = [];
+let leaderBoard = [];
+let counter = 0;
 
 function cb(error,response,html){
     if(error){
@@ -18,6 +20,7 @@ function cb(error,response,html){
         for(let i=0;i<scorecardLinks.length;i++){
             let linkOfOneMatch = "https://www.espncricinfo.com"+scorecardLinks[i].href;
             // console.log(linkOfOneMatch)
+            counter++;
             request(linkOfOneMatch,cb2);
         }
     }
@@ -43,6 +46,14 @@ function cb2(error,response,html){
                 processLeaderBoard(name,runs,balls,fours,six);
             }
         }
+    }
+    counter--;
+    if(counter == 0){
+        //all the request callback have been executed.
+        // console.log(leaderBoard);
+        let jsonFile = JSON.stringify(leaderBoard);
+        fs.writeFileSync("leaderBoard.json",jsonFile);
+
     }
 }
 
