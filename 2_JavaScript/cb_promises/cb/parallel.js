@@ -3,9 +3,9 @@ const fs = require("fs");
 // to another function.
 
 console.log("Before");
-let content1 = fs.readFile("file.txt",cb);
-let content2 = fs.readFile("file2.txt",cb);
-let content3 = fs.readFile("file3.txt",cb);
+fs.readFile("file.txt",cb);
+fs.readFile("file2.txt",cb);
+fs.readFile("file3.txt",cb);
 
 function cb(error,data){
     console.log(data+"");
