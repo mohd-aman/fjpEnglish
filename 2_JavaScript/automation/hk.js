@@ -17,12 +17,7 @@ browserPromise.then(function(browserInstance){
     let hkPromise = page.goto("https://www.hackerrank.com/");
     return hkPromise;
 }).then(function(){
-    return page.waitForSelector('a[data-event-action="Login"]');
-}).then(function(){
-    let logInBtnPromise = page.click('a[data-event-action="Login"]',{
-        delay:200,
-    });
-    return logInBtnPromise;
+    return waitAndClick('a[data-event-action="Login"]');
 }).then(function(){
     return page.waitForSelector(".fl-col.fl-node-5bd106f71cd43 .fl-button");
 }).then(function(){
@@ -97,8 +92,22 @@ browserPromise.then(function(browserInstance){
     // console.log("Question is solved");
 }).then(function(){
     console.log("All the Questions have been solved");
+}).catch(function(err){
+    console.log(err);
 })
 
+function waitAndClick(selector){
+    return new Promise(function(resolve,reject){
+        let waitForElementPromise = page.waitForSelector(selector);
+        waitForElementPromise.then(function(){
+            let clickPromise = page.click(selector,{delay:200})
+        }).then(function(){
+            resolve();
+        }).catch(function(err){
+            reject(err);
+        })
+    })
+}
 
 function questionSolver(url,answer){
     return new Promise(function(resolve,reject){
