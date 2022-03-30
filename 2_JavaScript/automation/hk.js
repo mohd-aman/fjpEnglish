@@ -1,4 +1,5 @@
 const puppeteer = require("puppeteer");
+const codeFile = require("./code");
 
 const email = "fesagom584@chatich.com"
 const password = "pepcoding123"
@@ -72,4 +73,53 @@ browserPromise.then(function(browserInstance){
     return allChallengeArrPromise;
 }).then(function(allChallengeArr){
     console.log("Number of questions -> " + allChallengeArr.length);
+    let questionWillBeSolvePromise = questionSolver(allChallengeArr[0],codeFile.answers[0]);
+    return questionWillBeSolvePromise;
+}).then(function(){
+    console.log("Question is solved");
 })
+
+
+function questionSolver(question,answer){
+    return new Promise(function(resolve,reject){
+        let questionWillBeClicked = question.click();
+        questionWillBeClicked.then(function(){
+            return page.waitForSelector(".monaco-editor.no-user-select")
+        }).then(function(){
+            return page.click(".monaco-editor.no-user-select",{delay:200});
+        }).then(function(){
+            return page.waitForSelector(".checkbox-input");
+        }).then(function(){
+            return page.click(".checkbox-input",{delay:200})
+        }).then(function(){
+            return page.waitForSelector("#input-1");
+        }).then(function(){
+            return page.click("#input-1",{delay:200});
+        }).then(function(){
+            return page.type("#input-1",answer);
+        }).then(function(){
+            return page.keyboard.down('Control');
+        }).then(function(){
+            return page.keyboard.press('A');
+        }).then(function(){
+            return page.keyboard.press('X');
+        }).then(function(){
+            return page.keyboard.up('Control');
+        }).then(function(){
+            return page.click(".monaco-editor.no-user-select");
+        }).then(function(){
+            return page.keyboard.down('Control');
+        }).then(function(){
+            return page.keyboard.press('A');
+        }).then(function(){
+            return page.keyboard.press('V');
+        }).then(function(){
+            return page.waitForSelector(".ui-btn.ui-btn-normal.ui-btn-primary.pull-right");
+        }).then(function(){
+            return page.click(".ui-btn.ui-btn-normal.ui-btn-primary.pull-right",{delay:200});
+        }).then(function(){
+            resolve();
+        })
+    })
+
+}
