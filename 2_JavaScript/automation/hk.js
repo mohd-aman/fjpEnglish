@@ -57,7 +57,7 @@ browserPromise.then(function(browserInstance){
     return page.waitForSelector('input[value="warmup"]');
 }).then(function(){
     let warmupClickPromise = page.click('input[value="warmup"]',{
-        delay:200,
+        delay:400,
     });
     return warmupClickPromise;
 }).then(function(){
