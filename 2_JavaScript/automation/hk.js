@@ -6,7 +6,10 @@ const password = "pepcoding123"
 
 let browserPromise = puppeteer.launch({ headless: false,defaultViewport:null,rgs:['--start-maximized']});
 let page;
+let cPage;
+let browser;
 browserPromise.then(function(browserInstance){
+    browser = browserInstance;
     let pagePromise = browserInstance.newPage();
     return pagePromise;
 }).then(function(newPage){
@@ -62,64 +65,83 @@ browserPromise.then(function(browserInstance){
     });
     return warmupClickPromise;
 }).then(function(){
-    return page.waitForSelector(".ui-btn.ui-btn-normal.primary-cta.ui-btn-line-primary.ui-btn-styled");
+    return page.waitForSelector(".challenges-list .js-track-click.challenge-list-item");
 }).then(function(){
     console.log("warmup has been selected");
     // querySelectorAll -> $$
     // querySelector    -> $
-    let allChallengeArrPromise = page.$$(".ui-btn.ui-btn-normal.primary-cta.ui-btn-line-primary.ui-btn-styled",{
+    let allChallengeArrPromise = page.$$(".challenges-list .js-track-click.challenge-list-item",{
         delay:100
     })
     return allChallengeArrPromise;
 }).then(function(allChallengeArr){
     console.log("Number of questions -> " + allChallengeArr.length);
-    let questionWillBeSolvePromise = questionSolver(allChallengeArr[0],codeFile.answers[0]);
+    let allUrlLinksPromise = page.evaluate(function(){
+        let allEle = document.querySelectorAll(".challenges-list .js-track-click.challenge-list-item");
+        let linksArr = [];
+        for(let i=0;i<allEle.length;i++){
+            linksArr.push("https://www.hackerrank.com/"+allEle[i].getAttribute("href"));
+        }
+        return linksArr;
+    })
+    return allUrlLinksPromise;
+}).then(function(allLinks){
+    console.log(allLinks);
+    let questionWillBeSolvePromise = questionSolver(allLinks[0],codeFile.answers[0]);
+    for(let i=1;i<allLinks.length;i++){
+        questionWillBeSolvePromise = questionWillBeSolvePromise.then(function(){
+            return questionSolver(allLinks[i],codeFile.answers[i]);
+        })
+    }
     return questionWillBeSolvePromise;
+    // console.log("Question is solved");
 }).then(function(){
-    console.log("Question is solved");
+    console.log("All the Questions have been solved");
 })
 
 
-function questionSolver(question,answer){
+function questionSolver(url,answer){
     return new Promise(function(resolve,reject){
-        let questionWillBeClicked = question.click();
-        questionWillBeClicked.then(function(){
-            return page.waitForSelector(".monaco-editor.no-user-select")
+        let pagePromise = browser.newPage();
+        pagePromise.then(function(pageInstance){
+            cPage = pageInstance;
+            return cPage.goto(url);
         }).then(function(){
-            return page.click(".monaco-editor.no-user-select",{delay:200});
+            return cPage.waitForSelector(".monaco-editor.no-user-select")
         }).then(function(){
-            return page.waitForSelector(".checkbox-input");
+            return cPage.click(".monaco-editor.no-user-select",{delay:200});
         }).then(function(){
-            return page.click(".checkbox-input",{delay:200})
+            return cPage.waitForSelector(".checkbox-input");
         }).then(function(){
-            return page.waitForSelector("#input-1");
+            return cPage.click(".checkbox-input",{delay:200})
         }).then(function(){
-            return page.click("#input-1",{delay:200});
+            return cPage.waitForSelector("#input-1");
         }).then(function(){
-            return page.type("#input-1",answer);
+            return cPage.click("#input-1",{delay:200});
         }).then(function(){
-            return page.keyboard.down('Control');
+            return cPage.type("#input-1",answer);
         }).then(function(){
-            return page.keyboard.press('A');
+            return cPage.keyboard.down('Control');
         }).then(function(){
-            return page.keyboard.press('X');
+            return cPage.keyboard.press('A');
         }).then(function(){
-            return page.keyboard.up('Control');
+            return cPage.keyboard.press('X');
         }).then(function(){
-            return page.click(".monaco-editor.no-user-select");
+            return cPage.keyboard.up('Control');
         }).then(function(){
-            return page.keyboard.down('Control');
+            return cPage.click(".monaco-editor.no-user-select");
         }).then(function(){
-            return page.keyboard.press('A');
+            return cPage.keyboard.down('Control');
         }).then(function(){
-            return page.keyboard.press('V');
+            return cPage.keyboard.press('A');
         }).then(function(){
-            return page.waitForSelector(".ui-btn.ui-btn-normal.ui-btn-primary.pull-right");
+            return cPage.keyboard.press('V');
         }).then(function(){
-            return page.click(".ui-btn.ui-btn-normal.ui-btn-primary.pull-right",{delay:200});
+            return cPage.waitForSelector(".ui-btn.ui-btn-normal.ui-btn-primary.pull-right");
+        }).then(function(){
+            return cPage.click(".ui-btn.ui-btn-normal.ui-btn-primary.pull-right",{delay:200});
         }).then(function(){
             resolve();
         })
     })
-
 }
