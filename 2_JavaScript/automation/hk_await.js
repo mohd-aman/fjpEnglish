@@ -1,5 +1,7 @@
 const puppeteer = require("puppeteer");
 
+const email = "fesagom584@chatich.com"
+const password = "pepcoding123"
 
 // console.log(" 1: Before");
 
@@ -22,10 +24,35 @@ async function func(){
     let browserInstance = await puppeteer.launch({ headless: false,defaultViewport:null,rgs:['--start-maximized']});
     let newPage = await browserInstance.newPage();
     await newPage.goto("https://www.hackerrank.com/");
-    await newPage.waitForSelector('a[data-event-action="Login"]');
-    await newPage.click('a[data-event-action="Login"]',{delay:200});
-    
+    await waitAndClick('a[data-event-action="Login"]',newPage);
+    await waitAndClick('.fl-module.fl-module-button.fl-node-5bd106f71cbed .fl-button',newPage);
+    await newPage.waitForSelector('input[name="username"]');
+    await newPage.type('input[name="username"]',email);
+    await newPage.waitForSelector('input[name="password"]')
+    await newPage.type('input[name="password"]',password);
+    await waitAndClick('button[data-analytics="LoginPassword"]',newPage);
+    await waitAndClick('.topic-name',newPage);
+    await waitAndClick('input[value="warmup"]',newPage);
+    await newPage.waitForSelector('.challenges-list .js-track-click.challenge-list-item');
+    let linkArr = await newPage.evaluate(function(){
+        let allEle = document.querySelectorAll(".challenges-list .js-track-click.challenge-list-item");
+        let linksArr = [];
+        for(let i=0;i<allEle.length;i++){
+            linksArr.push("https://www.hackerrank.com/"+allEle[i].getAttribute("href"));
+        }
+        return linksArr;
+    })
+    console.log(linkArr);
 };
 
 func();
 
+
+async function waitAndClick(selector,page){
+    await page.waitForSelector(selector);
+    await page.click(selector,{delay:200});
+}
+
+async function questionSolver(url,answer){
+    
+}
