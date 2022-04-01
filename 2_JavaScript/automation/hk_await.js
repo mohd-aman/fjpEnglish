@@ -1,4 +1,5 @@
 const puppeteer = require("puppeteer");
+const code = require("./code");
 
 const email = "fesagom584@chatich.com"
 const password = "pepcoding123"
@@ -42,7 +43,10 @@ async function func(){
         }
         return linksArr;
     })
-    console.log(linkArr);
+    // console.log(linkArr);
+    for(let i=0;i<linkArr.length;i++){
+        await questionSolver(linkArr[i],code.answers[i],browserInstance);
+    }
 };
 
 func();
@@ -53,6 +57,20 @@ async function waitAndClick(selector,page){
     await page.click(selector,{delay:200});
 }
 
-async function questionSolver(url,answer){
-    
+async function questionSolver(url,answer,browser){
+    let newPage = await browser.newPage();
+    await newPage.goto(url);
+    await waitAndClick(".monaco-editor.no-user-select",newPage);
+    await waitAndClick(".checkbox-input",newPage);
+    await waitAndClick("#input-1",newPage);
+    await newPage.type("#input-1",answer);
+    await newPage.keyboard.down('Control');
+    await newPage.keyboard.press('A');
+    await newPage.keyboard.press('X');
+    await newPage.keyboard.up('Control');
+    await newPage.click(".monaco-editor.no-user-select");
+    await newPage.keyboard.down('Control');
+    await newPage.keyboard.press('A');
+    await newPage.keyboard.press('V');
+    await waitAndClick(".ui-btn.ui-btn-normal.ui-btn-primary.pull-right",newPage);
 }
