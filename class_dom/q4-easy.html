@@ -20,6 +20,13 @@
     </ul>
     <script>
       //insertBefore
+      let allLi = document.querySelectorAll("li");
+      let requiredLi = allLi[6];
+      let liTag = document.createElement("li");
+      liTag.innerHTML = "7";
+      let ulTag = document.querySelector("ul");
+      ulTag.insertBefore(liTag,requiredLi);
+
     </script>
   </body>
 </html>
