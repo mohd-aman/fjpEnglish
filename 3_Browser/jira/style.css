@@ -13,16 +13,44 @@ body{
     align-items: center;
 }
 
+.toolbox-cont>*{
+    margin-left: 5rem;
+    border-radius: 3px;
+}
+
 .toolbox-priority-cont{
     height: 3rem;
     background-color: coral;
     width: 18rem;
-    margin-left: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.color{
+    height: 1.5rem;
+    width: 3rem;
+
+}
+
+.ligthpink{
+    background-color: lightpink;
+}
+.blue{
+    background-color: lightblue;
+}
+.green{
+    background-color: lightgreen;
+}
+.black{
+    background-color: black;
 }
 
 .action-btn-cont{
     background-color: crimson;
     width: 10rem;
     height: 3rem;
-    margin-left: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
 }
