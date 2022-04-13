@@ -102,3 +102,33 @@ body{
 .active{
     border: 5px solid red;
 }
+
+.main-cont{
+    margin-top: 2rem;
+    display: flex;
+    gap:2rem;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
+
+.ticket-cont{
+    background-color: cadetblue;
+    height: 10rem;
+    width: 16rem;
+}
+
+.ticket-color{
+    height: 1rem;
+    background-color: black;
+}
+
+.ticket-id{
+    height: 1.5rem;
+    background-color:yellow;
+}
+
+.task-area{
+    height: calc(100% - 1rem-2rem);
+    font-size: 1.5rem;
+    padding: 5px;
+}
