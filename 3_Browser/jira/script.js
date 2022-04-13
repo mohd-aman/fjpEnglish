@@ -1,15 +1,44 @@
 let addBtn = document.querySelector(".add-btn");
 let addModal = true;
-let modal = document.querySelector(".modal-cont");
+let modalCont = document.querySelector(".modal-cont");
+let mainCont = document.querySelector(".main-cont");
+let taskAreaCont = document.querySelector(".textarea-cont")
 
 addBtn.addEventListener("click",function(){
     //Display a Modal
     if(addModal){
-        modal.style.display = "flex";
+        modalCont.style.display = "flex";
     }else{
-        modal.style.display = "none";
+        modalCont.style.display = "none";
     }
     addModal = !addModal
 })
 
+modalCont.addEventListener('keydown',function(e){
+    // console.log(e);
+    let key = e.key;
+    if(key == 'Enter'){
+        createTicket(taskAreaCont.value);
+        taskAreaCont.value = "";
+        modalCont.style.display = "none";
+        addModal = !addModal
+    }
+})
 
+
+function createTicket(task){
+    // <div class="ticket-cont">
+            // <div class="ticket-color"></div>
+            // <div class="ticket-id"></div>
+            // <div class="task-area"></div>
+    //     </div>
+    let ticketCont = document.createElement('div');
+    ticketCont.setAttribute('class','ticket-cont');
+    ticketCont.innerHTML = `<div class="ticket-color"></div>
+                            <div class="ticket-id"></div>
+                            <div class="task-area">${task}</div>`;
+    
+    mainCont.appendChild(ticketCont);
+
+
+}
