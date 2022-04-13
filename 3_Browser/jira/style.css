@@ -80,6 +80,7 @@ body{
     width: 75%;
     outline:none;
     border: none;
+    resize: none;
     padding: 2rem;
     font-size: 2rem;
     background-color: aliceblue;
@@ -112,14 +113,13 @@ body{
 }
 
 .ticket-cont{
-    background-color: cadetblue;
+    background-color: lightgray;
     height: 10rem;
     width: 16rem;
 }
 
 .ticket-color{
     height: 1rem;
-    background-color: black;
 }
 
 .ticket-id{
