@@ -6,9 +6,31 @@ let taskAreaCont = document.querySelector(".textarea-cont")
 let removeBtn = document.querySelector(".remove-btn");
 let removeFlag = false;
 let allPriorityColors = document.querySelectorAll(".priority-color");
+let toolBoxColors = document.querySelectorAll(".color");
 let colors = ['ligthpink','blue','green','black'];
 let modalPriorityColor = colors[colors.length-1];
 var uid = new ShortUniqueId();
+
+let ticketArr = [];
+
+for(let i=0;i<toolBoxColors.length;i++){
+    toolBoxColors[i].addEventListener("click",function(){
+        let currentColor = toolBoxColors[i].classList[1];
+        let filteredArr = ticketArr.filter(function(ticketObj){
+            return currentColor == ticketObj.color;
+        })
+        let allTickets = document.querySelectorAll(".ticket-cont");
+        for(let j=0;j<allTickets.length;j++){
+            allTickets[j].remove();
+        }
+        for(let j=0;j<filteredArr.length;j++){
+            let color = filteredArr[j].color;
+            let task = filteredArr[j].task;
+            let id = filteredArr[j].id;
+            createTicket(color,task,id);
+        }
+    })
+}
 
 //Showing modal
 addBtn.addEventListener("click",function(){
@@ -48,22 +70,31 @@ modalCont.addEventListener('keydown',function(e){
 })
 
 
-function createTicket(ticketColor,task){
+function createTicket(ticketColor,task,ticketId){
     // <div class="ticket-cont">
             // <div class="ticket-color"></div>
             // <div class="ticket-id"></div>
             // <div class="task-area"></div>
     //     </div>
+    let id;
+    if(!ticketId){
+        id = uid();
+    }else{
+        id = ticketId;
+    }
     let ticketCont = document.createElement('div');
     ticketCont.setAttribute('class','ticket-cont');
     ticketCont.innerHTML = `<div class="ticket-color ${ticketColor}"></div>
-                            <div class="ticket-id">#${uid()}</div>
+                            <div class="ticket-id">#${id}</div>
                             <div class="task-area">${task}</div>
                             <div class="ticket-lock"> <i class="fa fa-lock"></i></div>`;
     mainCont.appendChild(ticketCont);
     handleRemoval(ticketCont);
     handleColor(ticketCont);
     handleLock(ticketCont);
+    if(!ticketId){
+        ticketArr.push({"color":ticketColor,"task":task,"id":id});
+    }
 }
 
 removeBtn.addEventListener("click",function(){
