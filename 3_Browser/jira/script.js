@@ -8,6 +8,7 @@ let removeFlag = false;
 let allPriorityColors = document.querySelectorAll(".priority-color");
 let colors = ['ligthpink','blue','green','black'];
 let modalPriorityColor = colors[colors.length-1];
+var uid = new ShortUniqueId();
 
 //Showing modal
 addBtn.addEventListener("click",function(){
@@ -56,11 +57,13 @@ function createTicket(ticketColor,task){
     let ticketCont = document.createElement('div');
     ticketCont.setAttribute('class','ticket-cont');
     ticketCont.innerHTML = `<div class="ticket-color ${ticketColor}"></div>
-                            <div class="ticket-id"></div>
-                            <div class="task-area">${task}</div>`;
+                            <div class="ticket-id">#${uid()}</div>
+                            <div class="task-area">${task}</div>
+                            <div class="ticket-lock"> <i class="fa fa-lock"></i></div>`;
     mainCont.appendChild(ticketCont);
     handleRemoval(ticketCont);
     handleColor(ticketCont);
+    handleLock(ticketCont);
 }
 
 removeBtn.addEventListener("click",function(){
@@ -78,6 +81,23 @@ function handleRemoval(ticket){
             ticket.remove();
         }
     })
+}
+
+function handleLock(ticket){
+    let ticketLock = ticket.querySelector(".ticket-lock i");
+    let ticketTaskArea = ticket.querySelector('.task-area');
+    ticketLock.addEventListener("click",function(){
+        if(ticketLock.classList.contains('fa-lock')){
+            ticketLock.classList.remove('fa-lock');
+            ticketLock.classList.add('fa-unlock');
+            ticketTaskArea.setAttribute('contenteditable','true');
+        }else{
+            ticketLock.classList.remove('fa-unlock');
+            ticketLock.classList.add('fa-lock');
+            ticketTaskArea.setAttribute('contenteditable','false');
+        }
+    })
+    
 }
 
 function handleColor(ticket){
