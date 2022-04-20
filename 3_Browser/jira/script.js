@@ -111,8 +111,8 @@ function createTicket(ticketColor,task,ticketId){
                             <div class="ticket-lock"> <i class="fa fa-lock"></i></div>`;
     mainCont.appendChild(ticketCont);
     handleRemoval(ticketCont,id);
-    handleColor(ticketCont);
-    handleLock(ticketCont);
+    handleColor(ticketCont,id);
+    handleLock(ticketCont,id);
     if(!ticketId){
         ticketArr.push({"color":ticketColor,"task":task,"id":id});
         let ticketArrStr = JSON.stringify(ticketArr);
@@ -141,10 +141,11 @@ function handleRemoval(ticket,id){
     })
 }
 
-function handleLock(ticket){
+function handleLock(ticket,id){
     let ticketLock = ticket.querySelector(".ticket-lock i");
     let ticketTaskArea = ticket.querySelector('.task-area');
     ticketLock.addEventListener("click",function(){
+        let ticketIdx = getTicketIdx(id);
         if(ticketLock.classList.contains('fa-lock')){
             ticketLock.classList.remove('fa-lock');
             ticketLock.classList.add('fa-unlock');
@@ -154,21 +155,28 @@ function handleLock(ticket){
             ticketLock.classList.add('fa-lock');
             ticketTaskArea.setAttribute('contenteditable','false');
         }
+
+        ticketArr[ticketIdx].task = ticketTaskArea.innerText;
+        localStorage.setItem('tickets',JSON.stringify(ticketArr));
     })
     
 }
 
-function handleColor(ticket){
+function handleColor(ticket,id){
     let ticketColorBand = ticket.querySelector('.ticket-color');
     ticketColorBand.addEventListener("click",function(){
         let currentTicketColor = ticketColorBand.classList[1];
         let currentTicketColorIdx = colors.findIndex(function(color){
             return currentTicketColor === color
         })
+        let ticketIdx = getTicketIdx(id);
         newIdx = (currentTicketColorIdx+1)%colors.length;
         newColor = colors[newIdx];
         ticketColorBand.classList.remove(currentTicketColor);
         ticketColorBand.classList.add(newColor);
+
+        ticketArr[ticketIdx].color = newColor;
+        localStorage.setItem('tickets',JSON.stringify(ticketArr));
     })
 }
 
