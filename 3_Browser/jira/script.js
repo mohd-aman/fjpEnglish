@@ -110,7 +110,7 @@ function createTicket(ticketColor,task,ticketId){
                             <div class="task-area">${task}</div>
                             <div class="ticket-lock"> <i class="fa fa-lock"></i></div>`;
     mainCont.appendChild(ticketCont);
-    handleRemoval(ticketCont);
+    handleRemoval(ticketCont,id);
     handleColor(ticketCont);
     handleLock(ticketCont);
     if(!ticketId){
@@ -129,9 +129,13 @@ removeBtn.addEventListener("click",function(){
     removeFlag = !removeFlag;
 })
 
-function handleRemoval(ticket){
+function handleRemoval(ticket,id){
     ticket.addEventListener("click",function(){
         if(removeFlag){
+            let idx = getTicketIdx(id);
+            ticketArr.splice(idx,1);// remove element at that index 
+            let ticketArrStr = JSON.stringify(ticketArr);
+            localStorage.setItem('tickets',ticketArrStr);
             ticket.remove();
         }
     })
@@ -166,4 +170,11 @@ function handleColor(ticket){
         ticketColorBand.classList.remove(currentTicketColor);
         ticketColorBand.classList.add(newColor);
     })
+}
+
+function getTicketIdx(id){
+    let ticketIdx = ticketArr.findIndex(function(ticketObj){
+        return ticketObj.id == id;
+    })
+    return ticketIdx
 }
