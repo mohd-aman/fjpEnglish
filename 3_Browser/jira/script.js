@@ -30,6 +30,17 @@ for(let i=0;i<toolBoxColors.length;i++){
             createTicket(color,task,id);
         }
     })
+
+    toolBoxColors[i].addEventListener('dblclick',function(){
+        let allTickets = document.querySelectorAll(".ticket-cont");
+        for(let j=0;j<allTickets.length;j++){
+            allTickets[j].remove();
+        }
+        for(let j=0;j<ticketArr.length;j++){
+            let ticketObj = ticketArr[j];
+            createTicket(ticketObj.color,ticketObj.task,ticketObj.id);
+        }
+    })
 }
 
 //Showing modal
