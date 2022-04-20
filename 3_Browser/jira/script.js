@@ -13,6 +13,16 @@ var uid = new ShortUniqueId();
 
 let ticketArr = [];
 
+if(localStorage.getItem('tickets')){
+    ticketArrStr = localStorage.getItem('tickets');
+    ticketArr = JSON.parse(ticketArrStr);
+    for(let j=0;j<ticketArr.length;j++){
+        let ticketObj = ticketArr[j];
+        createTicket(ticketObj.color,ticketObj.task,ticketObj.id);
+    }
+}
+
+
 for(let i=0;i<toolBoxColors.length;i++){
     toolBoxColors[i].addEventListener("click",function(){
         let currentColor = toolBoxColors[i].classList[1];
@@ -105,6 +115,8 @@ function createTicket(ticketColor,task,ticketId){
     handleLock(ticketCont);
     if(!ticketId){
         ticketArr.push({"color":ticketColor,"task":task,"id":id});
+        let ticketArrStr = JSON.stringify(ticketArr);
+        localStorage.setItem('tickets',ticketArrStr);
     }
 }
 
