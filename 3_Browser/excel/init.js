@@ -16,7 +16,7 @@ function initCells(){
     for(let i=0;i<100;i++){
         cellsContent+="<div class='row'>"
         for(let j=0;j<26;j++){
-            cellsContent+="<div class = 'cell' contentEditable='true'></div>"
+            cellsContent+=`<div class = 'cell' rowid='${i}' colid='${j}' contentEditable='true'></div>`
         }
         cellsContent+="</div>"
     }
@@ -41,7 +41,7 @@ function initDb(){
         }
         db.push(row);
     }
-    console.log(db);
+    // console.log(db);
 }
 
 initDb();
