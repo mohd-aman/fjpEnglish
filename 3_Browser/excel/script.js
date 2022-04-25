@@ -3,6 +3,8 @@ let leftCol = document.querySelector(".left-col");
 let topLeftCell = document.querySelector(".top-left-cell");
 let allCells = document.querySelectorAll(".cell");
 let addressInput = document.querySelector("#address");
+let formulaInput = document.querySelector("#formula");
+let lastSelectedCell ;
 
 cellsContentDiv.addEventListener("scroll",function(e){
     let top = e.target.scrollTop;
@@ -19,12 +21,17 @@ for(let i=0;i<allCells.length;i++){
         let rowId = Number(e.target.getAttribute("rowid"));
         let colId = Number(e.target.getAttribute("colid"));
         // console.log(rowId+" "+colId);
+        let cellObject = db[rowId][colId];
         let address = String.fromCharCode(65+colId)+(rowId+1)+"";
         // console.log(address);
         addressInput.value = address;
+        //update ui
+        formulaInput.value = cellObject.formula;
     })
 
     allCells[i].addEventListener("blur",function(e){
+        lastSelectedCell=e.target;
+        console.log(lastSelectedCell)
         let cellValue = e.target.textContent;
         let rowId = e.target.getAttribute("rowid");
         let colId = e.target.getAttribute("colid");
@@ -36,3 +43,17 @@ for(let i=0;i<allCells.length;i++){
         console.log("After update",cellObject);
     })
 }
+
+formulaInput.addEventListener("blur",function(e){
+    let formula = e.target.value;
+    if(formula){
+        let {rowId,colId} = getRowIdColIdFromElement(lastSelectedCell);
+        let cellObject = db[rowId][colId];
+        let computedValue = solveFormula(formula);
+        //update db
+        cellObject.value = computedValue;
+        cellObject.formula = formula;
+        //update ui
+        lastSelectedCell.textContent = computedValue;
+    }
+})
