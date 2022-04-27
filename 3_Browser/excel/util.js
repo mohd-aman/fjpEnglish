@@ -1,4 +1,4 @@
-function solveFormula(formula){
+function solveFormula(formula,selfCellObject){
     //forumula = D2 * E1 * H4 * 4
     let formulaComps = formula.split(" ");
     //formulaComps = [D2,E1,H4,4];
@@ -10,12 +10,27 @@ function solveFormula(formula){
             // console.log(colId);
             let cellObject = db[rowId][colId];
             let value = cellObject.value;
+            if(selfCellObject){
+                cellObject.children.push(selfCellObject.name);
+            }
             formula = formula.replace(formulaComp,value);
-            
         }
     }
     let computedValue = eval(formula);
     return computedValue;
+}
+
+function updateChildren(cellObject){
+    for(let i=0;i<cellObject.children.length;i++){
+        let childName = cellObject.children[i];
+        let {rowId,colId} = getRowIdColIdFromAddress(childName);
+        let childCellObject = db[rowId][colId];
+        let newValue = solveFormula(childCellObject.formula);
+        let cellUI = document.querySelector(`div[rowid='${rowId}'][colid='${colId}']`);
+        cellUI.textContent = newValue;
+        childCellObject.value = newValue;
+        updateChildren(childCellObject);
+    }
 }
 
 
