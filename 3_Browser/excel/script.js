@@ -31,7 +31,6 @@ for(let i=0;i<allCells.length;i++){
 
     allCells[i].addEventListener("blur",function(e){
         lastSelectedCell=e.target;
-        console.log(lastSelectedCell)
         let cellValue = e.target.textContent;
         let rowId = e.target.getAttribute("rowid");
         let colId = e.target.getAttribute("colid");
@@ -59,7 +58,7 @@ for(let i=0;i<allCells.length;i++){
             }
         }
     })
-    
+
 }
 
 formulaInput.addEventListener("blur",function(e){

@@ -12,10 +12,12 @@ function solveFormula(formula,selfCellObject){
             let value = cellObject.value;
             if(selfCellObject){
                 cellObject.children.push(selfCellObject.name);
+                selfCellObject.parent.push(cellObject.name);
             }
             formula = formula.replace(formulaComp,value);
         }
     }
+    // console.log(selfCellObject);
     let computedValue = eval(formula);
     return computedValue;
 }
