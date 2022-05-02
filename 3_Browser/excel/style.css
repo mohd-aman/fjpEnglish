@@ -146,3 +146,12 @@
     justify-content: center;
     align-items: center;
 }
+
+.font-style div:hover{
+    background:darkgrey;
+    opacity: .5;
+}
+
+.active-font-style{
+    background:darkgrey;
+}
